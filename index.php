@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Liu+Jian+Mao+Cao|Lobster&display=swap" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <title>Sign Up</title>
 </head>
 
@@ -16,37 +19,76 @@
 <body>
   <main>
     <div class="container">
+    <div class="container">
       
 <?php
 
+$error_msg = "";
+$fname = $lname = $email = $dob = $dept = $password = "";
+// $gender = $_POST['gender'];
 if(isset($_POST['submit'])){
-  $error_msg = "";
-  $color = $_POST['fav-color'];
-  echo "<p style='display: none;' class='error-msg'><?php echo $error_msg ?></p>";
-   
-    $fname = $lname = $email = $dob = $dept = $password = "";
+  
+  // $color = $_POST['fav-color'];
+
+
+
+    
   if (empty($_POST['fname']) || 
   empty($_POST['lname']) || 
   empty($_POST['email']) || 
   empty($_POST['dob']) || 
   empty($_POST['dept'])) {
-    $error_msg = "<p class='error-msg'>Some required field(s) are empty</p>";
-    $email = $_POST['email'];
     $fname = $_POST['fname'];
     $lname = $_POST['lname'];
+    $email = $_POST['email'];
     $dob = $_POST['dob'];
-    echo "<body style='background-color: $color;'></body>"; 
+    $error_msg = "<p class='error-msg'>Some required field(s) are empty</p>";
   }
+
   else {
+    // if((empty($genderM)) && (empty($genderF))){
+    if((empty($gender))){
+      $error_msg = "<p class='error-msg'>You must select male or female</p>";
+    }
+    elseif((empty($genderM)) && isset($genderF)){
+      echo "Female";
+    }
+  
+    elseif((empty($genderF)) && isset($genderM)){
+      echo test_input("Male");
+    }
+    
+    else{
+      $error_msg = "<p class='error-msg'>You must select one gender male or female</p>";
+    }
+     
 
     validatefunction();
-    header("Location: view.php");
+    // $passingarray = array(
+    //   test_input($fname),
+    //   test_input($lname),
+    //   test_input($email),
+    //   test_input($dob),
+    //   test_input($dept),
+    //   test_input($color),
+    // );
+    // $fname = $_POST['fname'];
+    echo $fname;
+    echo $lname;
+    echo $email;
+    // include ('view.php');  
+    // $_SESSION['fname'] = test_input($fname);
+    // $_SESSION['lname'] = test_input($lname);
+    // $_SESSION['email'] = test_input($email);
+    // $_SESSION['dob'] = test_input($dob);
+    // $_SESSION['dept'] = test_input($dept);
+    // $_SESSION['color'] = test_input($color);
+    // header("Location: view.php");
   }
   //   echo htmlspecialchars($_POST['lname'])."<br>";
   //   echo htmlspecialchars($_POST['email'])."<br>";
   //   echo htmlspecialchars($_POST['dob'])."<br>";
   //   echo htmlspecialchars($_POST['fav-color'])."<br>";
-  //   echo htmlspecialchars($_POST['phone-no'])."<br>";
   }
 
   function validatefunction(){
@@ -55,14 +97,9 @@ if(isset($_POST['submit'])){
     if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
       $error_msg = "<p class='error-msg'>Invalid email format</p>"; 
     }
-    else{
-    
+
     if (!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{15,}$/",$password)) {
       $error_msg = "<p class='error-msg'>Password must be at least 15 letters long, with atleast 1 uppercase, 1 lowercase, number, symbol</p>";
-    }
-    else{
-      echo test_input($password)."<br>";
-    }
     }
 
   }
@@ -77,7 +114,7 @@ if(isset($_POST['submit'])){
 ?>
     <h1>Sign Up</h1>
     <form autocomplete="on" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-    <?php echo $error_msg ?>
+      <?php echo $error_msg ?>
 
       <span>Names</span>
       <div class="long">
@@ -89,8 +126,9 @@ if(isset($_POST['submit'])){
       <input name="email" placeholder="email@example.com" type="email" value="<?php echo $email ?>">
 
       <span>Password</span>
-      <div class="long">
-      <input name="password" type="password" placeholder="Create Password" value="<?php echo $password ?>">
+      <div class="the-pass">
+      <input id="myInput" name="password" type="password" placeholder="Create Password" value="<?php echo $password ?>">
+      <i id="show" onclick="myFunction()" class="fa fa-eye-slash"></i>
       </div>
  
       <span>Date of Birth</span>
@@ -104,8 +142,8 @@ if(isset($_POST['submit'])){
       <div class="gender-div">
         <span>Gender:</span>
         <div>
-          <input type="checkbox" value="Male" name="gender"/><label for="male">Male</label>
-          <input type="checkbox" value="Female" name="gender" /><label for="female">Female</label>
+          <input type="checkbox" value="<?php echo $gender ?>" name="gender" /><label for="male">Male</label>
+          <input type="checkbox" value="<?php echo $gender ?>" name="gender" /><label for="female">Female</label>
         </div>
       </div>
         
@@ -122,10 +160,11 @@ if(isset($_POST['submit'])){
         </select>
       </div>
 
-      <button name="submit" type="submit">Sign Up</button>
+      <button name="submit" onclick="checkgender()" type="submit">Sign Up</button>
       
     </form>
 
+    </div>
     </div>
   </main>
 
@@ -144,5 +183,18 @@ var yyyy = today.getFullYear();
 today = yyyy+'-'+mm+'-'+dd;
 document.getElementById("datefield").setAttribute("max", today);
 </script>
+<script>
+    function myFunction() {
+      var x = document.getElementById("myInput");
+      if (x.type === "password") {
+        x.type = "text";
+        document.getElementById("show").className = "fa fa-eye"
+      } else {
+        x.type = "password";
+       document.getElementById("show").className = "fa fa-eye-slash"
+      }
+    }
+    </script>
+    
 </body>
 </html>
