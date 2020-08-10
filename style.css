@@ -9,7 +9,7 @@ body{
   background-color: #f8f8f8;
   margin: 2% 0 10% 0;
   /* padding-top: 5%; */
-  width: 65%;
+  width: 70%;
   border-radius: 20px;
   display: inline-block;
   border: none;
@@ -60,7 +60,7 @@ input{
   background-color: #fefefeb0;
   color: #4a4b4d;
   outline: none;
-  width: 70%;
+  width: 75%;
   margin: auto;
   margin-bottom: 20px;
   border: none;
@@ -180,21 +180,21 @@ span:visited{
 
 @media screen and (max-width: 720px){
   .container{
-    width: 90%;
+    width: 95%;
     margin: 2rem auto;
   }
-  form{
+  form,.long{
     width: 100%;
   }
-  .input,.long1{
-    width: 87%
+  .the-pass{
+    width: 87%;
   }
   #signin{
     padding: 30px 20% 25px 5%;
   }
-  .floatR{
+  /* .floatR{
     float: left;
-  }
+  } */
   input[type="checkbox"]{
     width: 13px;
     height: 13px;
