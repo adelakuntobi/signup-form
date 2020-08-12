@@ -1,3 +1,15 @@
+<?php
+  if(!isset($fname)){
+    $fname = '';
+  };
+  if(!isset($lname)){
+    $lname = '';
+  };
+  if(!isset($email)){
+    $email = '';
+  };
+?>
+
 
 
 <!DOCTYPE html>
@@ -21,113 +33,24 @@
     <div class="container">
     <div class="container">
       
-<?php
-
-$error_msg = "";
-$fname = $lname = $email = $dob = $dept = $password = "";
-// $gender = $_POST['gender'];
-if(isset($_POST['submit'])){
-  
-  // $color = $_POST['fav-color'];
-
-
-
-    
-  if (empty($_POST['fname']) || 
-  empty($_POST['lname']) || 
-  empty($_POST['email']) || 
-  empty($_POST['dob']) || 
-  empty($_POST['dept'])) {
-    $fname = $_POST['fname'];
-    $lname = $_POST['lname'];
-    $email = $_POST['email'];
-    $dob = $_POST['dob'];
-    $error_msg = "<p class='error-msg'>Some required field(s) are empty</p>";
-  }
-
-  else {
-    // if((empty($genderM)) && (empty($genderF))){
-    if((empty($gender))){
-      $error_msg = "<p class='error-msg'>You must select male or female</p>";
-    }
-    elseif((empty($genderM)) && isset($genderF)){
-      echo "Female";
-    }
-  
-    elseif((empty($genderF)) && isset($genderM)){
-      echo test_input("Male");
-    }
-    
-    else{
-      $error_msg = "<p class='error-msg'>You must select one gender male or female</p>";
-    }
-     
-
-    validatefunction();
-    // $passingarray = array(
-    //   test_input($fname),
-    //   test_input($lname),
-    //   test_input($email),
-    //   test_input($dob),
-    //   test_input($dept),
-    //   test_input($color),
-    // );
-    // $fname = $_POST['fname'];
-    echo $fname;
-    echo $lname;
-    echo $email;
-    // include ('view.php');  
-    // $_SESSION['fname'] = test_input($fname);
-    // $_SESSION['lname'] = test_input($lname);
-    // $_SESSION['email'] = test_input($email);
-    // $_SESSION['dob'] = test_input($dob);
-    // $_SESSION['dept'] = test_input($dept);
-    // $_SESSION['color'] = test_input($color);
-    // header("Location: view.php");
-  }
-  //   echo htmlspecialchars($_POST['lname'])."<br>";
-  //   echo htmlspecialchars($_POST['email'])."<br>";
-  //   echo htmlspecialchars($_POST['dob'])."<br>";
-  //   echo htmlspecialchars($_POST['fav-color'])."<br>";
-  }
-
-  function validatefunction(){
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-      $error_msg = "<p class='error-msg'>Invalid email format</p>"; 
-    }
-
-    if (!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{15,}$/",$password)) {
-      $error_msg = "<p class='error-msg'>Password must be at least 15 letters long, with atleast 1 uppercase, 1 lowercase, number, symbol</p>";
-    }
-
-  }
-
-  function test_input($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-  }
-
-?>
     <h1>Sign Up</h1>
-    <form autocomplete="on" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-      <?php echo $error_msg ?>
-
+    <form autocomplete="on" method="POST" action="view.php">
+      <?php if(isset($error_msg)) {  ?>
+         <p><?php echo $error_msg ?></p>
+      <?php } ?>
+  
       <span>Names</span>
       <div class="long">
-      <input name="fname" type="text" placeholder="First Name" class="input" value="<?php echo $fname ?>">
-      <input name="lname" type="text" placeholder="Other Name" class="input floatR" value="<?php echo $lname ?>"><br>
+      <input name="fname" type="text" placeholder="First Name" class="input" value="<?php echo  htmlspecialchars($fname) ?>">
+      <input name="lname" type="text" placeholder="Other Name" class="input floatR" value="<?php echo htmlspecialchars($lname) ?>"><br>
       </div>
 
       <span>Email</span>
-      <input name="email" placeholder="email@example.com" type="email" value="<?php echo $email ?>">
+      <input name="email" placeholder="email@example.com" type="email" value="<?php echo htmlspecialchars($email) ?>">
 
       <span>Password</span>
       <div class="the-pass">
-      <input id="myInput" name="password" type="password" placeholder="Create Password" value="<?php echo $password ?>">
+      <input id="myInput" name="password" type="password" placeholder="Create Password">
       <i id="show" onclick="myFunction()" class="fa fa-eye-slash"></i>
       </div>
  
@@ -142,8 +65,8 @@ if(isset($_POST['submit'])){
       <div class="gender-div">
         <span>Gender:</span>
         <div>
-          <input type="checkbox" value="<?php echo $gender ?>" name="gender" /><label for="male">Male</label>
-          <input type="checkbox" value="<?php echo $gender ?>" name="gender" /><label for="female">Female</label>
+          <input type="checkbox" value="Male" name="male" /><label for="male">Male</label>
+          <input type="checkbox" value="Female" name="female" /><label for="female">Female</label>
         </div>
       </div>
         
